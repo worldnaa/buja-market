@@ -1,6 +1,7 @@
-package com.bujamarket.repository.item;
+package com.bujamarket.domain.item;
 
 import com.bujamarket.domain.item.Item;
+import com.bujamarket.domain.item.ItemRepository;
 import com.bujamarket.domain.item.ItemSellStatus;
 import com.bujamarket.domain.item.QItem;
 import com.querydsl.core.BooleanBuilder;

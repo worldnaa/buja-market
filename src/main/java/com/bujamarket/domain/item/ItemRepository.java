@@ -1,4 +1,4 @@
-package com.bujamarket.repository.item;
+package com.bujamarket.domain.item;
 
 import com.bujamarket.domain.item.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
