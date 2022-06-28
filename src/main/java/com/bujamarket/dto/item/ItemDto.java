@@ -1,4 +1,4 @@
-package com.bujamarket.web.dto;
+package com.bujamarket.dto.item;
 
 import lombok.Getter;
 import lombok.Setter;
