@@ -50,7 +50,7 @@ public class Member {
                         .email(memberFormDto.getEmail())
                         .address(memberFormDto.getAddress())
                         .password(passwordEncoder.encode(memberFormDto.getPassword()))
-                        .role(Role.USER)
+                        .role(Role.ADMIN) //관리자 회원가입 만들고 USER 로 바꾸기
                         .build();
 
     }
