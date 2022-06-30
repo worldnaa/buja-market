@@ -137,14 +137,20 @@ class OrderTest {
         //given
         Order order = this.createOrder();
         Long orderItemId = order.getOrderItems().get(0).getId();
-        em.flush();
-        em.clear();
+
+        em.flush(); //객체 데이터베이스에 반영
+        em.clear(); //영속성 컨텍스트 상태 초기화
 
         //when
+        //order 엔티티에 저장했던 orderItemId 를 이용하여, orderItem 을 데이터베이스에서 다시 조회
         OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(EntityNotFoundException::new);
 
         //then
+        //orderItem 엔티티에 있는 order 객체의 클래스 출력
         System.out.println("Order class : " + orderItem.getOrder().getClass());
+        System.out.println("================================================");
+        orderItem.getOrder().getOrderDate();
+        System.out.println("================================================");
     }
 
 

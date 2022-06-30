@@ -1,5 +1,6 @@
 package com.bujamarket.domain.cart;
 
+import com.bujamarket.domain.BaseEntity;
 import com.bujamarket.domain.member.Member;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,14 +13,14 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Cart {
+public class Cart extends BaseEntity {
 
     @Id
     @Column(name = "cart_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;                                //장바구니 코드
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;                          //회원 코드
 
@@ -35,6 +36,7 @@ public class Cart {
     - 매핑할 외래키를 지정한다
     - name 속성에는 매핑할 외래키의 이름을 설정한다
     - name 을 명시하지 않으면 JPA 가 알아서 ID 를 찾지만, 컬럼명이 원하는 대로 생성되지 않을 수 있기에 직접 지정한다
+    - fetch 속성의 값은 LAZY(지연로딩) 로 설정한다
 
 * 회원 엔티티에는 장바구니 엔티티와 관련된 코드가 전혀 없다
 * 즉 장바구니 엔티티가 일방적으로 회원 엔티티를 참조하고 있는 것이다
