@@ -45,6 +45,9 @@ dependencies {
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-core:${queryDslVersion}"
 
+	// modelmapper 의존성 추가
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.0'
+
 	// devtools 의존성 추가
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 

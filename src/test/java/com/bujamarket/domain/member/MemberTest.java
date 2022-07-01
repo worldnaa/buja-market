@@ -29,15 +29,8 @@ class MemberTest {
     @DisplayName("Auditing 테스트")
     @WithMockUser(username = "user", roles = "USER")
     public void auditingTest() {
-
         //given
-        Member newMember = Member.builder()
-                                    .name("이유저")
-                                    .email("user@email.com")
-                                    .password("1234")
-                                    .address("서울시 강남구")
-                                    .role(Role.USER)
-                                    .build();
+        Member newMember = new Member();
         memberRepository.save(newMember);
 
         em.flush();

@@ -2,16 +2,12 @@ package com.bujamarket.domain.cart;
 
 import com.bujamarket.domain.BaseEntity;
 import com.bujamarket.domain.member.Member;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @ToString
-@Getter
-@NoArgsConstructor
+@Getter @Setter
 @Entity
 public class Cart extends BaseEntity {
 
@@ -24,10 +20,6 @@ public class Cart extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;                          //회원 코드
 
-    @Builder
-    public Cart(Member member) {
-        this.member = member;
-    }
 }
 
 /*

@@ -5,7 +5,6 @@ import com.bujamarket.domain.item.ItemRepository;
 import com.bujamarket.domain.item.ItemSellStatus;
 import com.bujamarket.domain.member.Member;
 import com.bujamarket.domain.member.MemberRepository;
-import com.bujamarket.domain.member.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,15 +42,15 @@ class OrderTest {
 
 
     public Item createItem() {
-        return Item.builder()
-                        .itemName("테스트 상품")
-                        .price(5000)
-                        .stockNumber(100)
-                        .itemDetail("테스트 상품 상세설명")
-                        .itemSellStatus(ItemSellStatus.SELL)
-                        .regTime(LocalDateTime.now())
-                        .updateTime(LocalDateTime.now())
-                        .build();
+        Item item = new Item();
+        item.setItemName("테스트 상품");
+        item.setPrice(10000);
+        item.setStockNumber(100);
+        item.setItemDetail("테스트 상품 상세설명");
+        item.setItemSellStatus(ItemSellStatus.SELL);
+        item.setRegTime(LocalDateTime.now());
+        item.setUpdateTime(LocalDateTime.now());
+        return item;
     }
 
 
@@ -71,12 +70,7 @@ class OrderTest {
             order.getOrderItems().add(orderItem);
         }
 
-        Member member = Member.builder()
-                        .name("이부자")
-                        .email("test@email.com")
-                        .password("1234")
-                        .role(Role.ADMIN)
-                        .build();
+        Member member = new Member();
         memberRepository.save(member);
 
         order.setMember(member);
@@ -88,7 +82,6 @@ class OrderTest {
     @Test
     @DisplayName("영속성 전이 테스트")
     public void cascadeTest() {
-
         //given
         Order order = new Order();
 
@@ -120,7 +113,6 @@ class OrderTest {
     @Test
     @DisplayName("고아 객체 제거 테스트")
     public void orphanRemovalTest() {
-
         Order order = this.createOrder();
 
         //order 엔티티에서 관리하고 있는 orderItem 리스트의 0번째 인덱스 요소를 제거한다
@@ -133,7 +125,6 @@ class OrderTest {
     @Test
     @DisplayName("지연 로딩 테스트")
     public void lazyLoadingTest() {
-
         //given
         Order order = this.createOrder();
         Long orderItemId = order.getOrderItems().get(0).getId();
@@ -152,28 +143,4 @@ class OrderTest {
         orderItem.getOrder().getOrderDate();
         System.out.println("================================================");
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

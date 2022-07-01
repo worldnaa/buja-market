@@ -1,13 +1,8 @@
 package com.bujamarket.domain.item;
 
-import com.bujamarket.domain.item.Item;
-import com.bujamarket.domain.item.ItemRepository;
-import com.bujamarket.domain.item.ItemSellStatus;
-import com.bujamarket.domain.item.QItem;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -25,6 +21,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
+@Transactional
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
 class ItemRepositoryTest {
@@ -36,53 +33,43 @@ class ItemRepositoryTest {
     @Autowired
     ItemRepository itemRepository;
 
-    // 테스트 내용 초기화 (테스트 메서드 실행 이후에 수행된다)
-    @AfterEach
-    void cleanup() {
-        itemRepository.deleteAll();
-    }
-
 
     @Test
     @DisplayName("상품 저장 테스트")
     public void createItemTest() {
-
         //given
-        String itemName = "테스트 상품";
-
-        itemRepository.save(Item.builder()
-                .itemName(itemName)
-                .price(10000)
-                .stockNumber(100)
-                .itemDetail("테스트 상품 상세설명")
-                .itemSellStatus(ItemSellStatus.SELL)
-                .regTime(LocalDateTime.now())
-                .updateTime(LocalDateTime.now())
-                .build());
+        Item item = new Item();
+        item.setItemName("테스트 상품");
+        item.setPrice(10000);
+        item.setStockNumber(100);
+        item.setItemDetail("테스트 상품 상세설명");
+        item.setItemSellStatus(ItemSellStatus.SELL);
+        item.setRegTime(LocalDateTime.now());
+        item.setUpdateTime(LocalDateTime.now());
 
         //when
+        Item savedItem = itemRepository.save(item);
         List<Item> itemList = itemRepository.findAll();
 
         //then
-        Item item = itemList.get(0);
-        assertThat(item.getItemName()).isEqualTo(itemName);
-        assertThat(item.getPrice()).isEqualTo(10000);
-        assertThat(item.getItemDetail()).isEqualTo("테스트 상품 상세설명");
-
+        assertThat(savedItem.getItemName()).isEqualTo("테스트 상품");
+        assertThat(savedItem.getPrice()).isEqualTo(10000);
+        assertThat(savedItem.getItemDetail()).isEqualTo("테스트 상품 상세설명");
+        System.out.println(savedItem.toString());
     }
 
 
     public void createItemList() {
         for (int i=1; i<=10; i++){
-            itemRepository.save(Item.builder()
-                    .itemName("테스트 상품" + i)
-                    .itemDetail("테스트 상품 상세설명" + i)
-                    .price(10000 + i)
-                    .stockNumber(100)
-                    .itemSellStatus(ItemSellStatus.SELL)
-                    .regTime(LocalDateTime.now())
-                    .updateTime(LocalDateTime.now())
-                    .build());
+            Item item = new Item();
+            item.setItemName("테스트 상품" + i);
+            item.setPrice(10000 + i);
+            item.setStockNumber(100);
+            item.setItemDetail("테스트 상품 상세설명" + i);
+            item.setItemSellStatus(ItemSellStatus.SELL);
+            item.setRegTime(LocalDateTime.now());
+            item.setUpdateTime(LocalDateTime.now());
+            itemRepository.save(item);
         }
     }
 
@@ -90,7 +77,6 @@ class ItemRepositoryTest {
     @Test
     @DisplayName("[상품명] 조회 테스트")
     public void findByItemNameTest() {
-
         //given
         this.createItemList();
 
@@ -108,7 +94,6 @@ class ItemRepositoryTest {
     @Test
     @DisplayName("[상품명] or [상품상세설명] 조회 테스트")
     public void findByItemNameOrItemDetailTest() {
-
         //given
         this.createItemList();
 
@@ -132,7 +117,6 @@ class ItemRepositoryTest {
     @Test
     @DisplayName("[특정 가격보다 값이 작은 상품] 조회 테스트")
     public void findByPriceLessThanTest() {
-
         //given
         this.createItemList();
 
@@ -154,7 +138,6 @@ class ItemRepositoryTest {
     @Test
     @DisplayName("[특정 가격보다 값이 작은 상품]을 [내림차순] 조회 테스트")
     public void findByPriceLessThanOrderByPriceDescTest() {
-
         //given
         this.createItemList();
 
@@ -176,7 +159,6 @@ class ItemRepositoryTest {
     @Test
     @DisplayName("@Query를 이용한 상품 조회 테스트")
     public void findByItemDetailTest() {
-
         //given
         this.createItemList();
 
@@ -198,7 +180,6 @@ class ItemRepositoryTest {
     @Test
     @DisplayName("nativeQuery 속성을 이용한 상품 조회 테스트")
     public void findByItemNameByNative() {
-
         //given
         this.createItemList();
 
@@ -246,27 +227,28 @@ class ItemRepositoryTest {
 
 
     public void createItemList2() {
-        for (int i=1; i<=5; i++){
-            itemRepository.save(Item.builder()
-                    .itemName("테스트 상품" + i)
-                    .itemDetail("테스트 상품 상세설명" + i)
-                    .price(10000 + i)
-                    .stockNumber(100)
-                    .itemSellStatus(ItemSellStatus.SELL)
-                    .regTime(LocalDateTime.now())
-                    .updateTime(LocalDateTime.now())
-                    .build());
+        for (int i=1; i<=5; i++) {
+            Item item = new Item();
+            item.setItemName("테스트 상품" + i);
+            item.setPrice(10000 + i);
+            item.setStockNumber(100);
+            item.setItemDetail("테스트 상품 상세설명" + i);
+            item.setItemSellStatus(ItemSellStatus.SELL);
+            item.setRegTime(LocalDateTime.now());
+            item.setUpdateTime(LocalDateTime.now());
+            itemRepository.save(item);
         }
+
         for (int i=6; i<=10; i++){
-            itemRepository.save(Item.builder()
-                    .itemName("테스트 상품" + i)
-                    .itemDetail("테스트 상품 상세설명" + i)
-                    .price(10000 + i)
-                    .stockNumber(100)
-                    .itemSellStatus(ItemSellStatus.SOLD_OUT)
-                    .regTime(LocalDateTime.now())
-                    .updateTime(LocalDateTime.now())
-                    .build());
+            Item item = new Item();
+            item.setItemName("테스트 상품" + i);
+            item.setPrice(10000 + i);
+            item.setStockNumber(100);
+            item.setItemDetail("테스트 상품 상세설명" + i);
+            item.setItemSellStatus(ItemSellStatus.SOLD_OUT);
+            item.setRegTime(LocalDateTime.now());
+            item.setUpdateTime(LocalDateTime.now());
+            itemRepository.save(item);
         }
     }
 
@@ -274,7 +256,6 @@ class ItemRepositoryTest {
     @Test
     @DisplayName("Querydsl 조회 테스트 2")
     public void queryDslTest2() {
-
         ///given
         this.createItemList2();
         String itemDetail = "테스트 상품 상세설명";
@@ -308,16 +289,4 @@ class ItemRepositoryTest {
             System.out.println(resultItem.toString());
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

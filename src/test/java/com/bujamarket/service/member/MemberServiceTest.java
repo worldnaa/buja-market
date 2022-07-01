@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Transactional
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
 class MemberServiceTest {
@@ -35,7 +37,6 @@ class MemberServiceTest {
     @Test
     @DisplayName("회원가입 테스트")
     public void saveMemberTest() {
-
         //given
         Member member = createMember();
 
@@ -54,7 +55,6 @@ class MemberServiceTest {
     @Test
     @DisplayName("회원 중복체크 테스트")
     public void saveDuplicateMemberTest() {
-
         //given
         Member member1 = createMember();
         Member member2 = createMember();
@@ -68,5 +68,4 @@ class MemberServiceTest {
 
         assertEquals("이미 가입된 회원입니다", e.getMessage());
     }
-
 }

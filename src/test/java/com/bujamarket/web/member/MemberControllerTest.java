@@ -32,6 +32,7 @@ class MemberControllerTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+
     public Member createMember(String email, String password) {
         MemberFormDto memberFormDto = new MemberFormDto();
         memberFormDto.setName("이부자");
@@ -45,63 +46,29 @@ class MemberControllerTest {
     @Test
     @DisplayName("로그인 성공 테스트")
     public void loginSuccessTest() throws Exception {
-
-        //given
         String email = "test@email.com";
         String password = "1234";
         this.createMember(email, password);
 
-        //when
         mockMvc.perform(formLogin().userParameter("email")
                                    .loginProcessingUrl("/members/login")
                                    .user(email)
                                    .password(password))
                 .andExpect(SecurityMockMvcResultMatchers.authenticated());
-
-        //then
     }
 
 
     @Test
     @DisplayName("로그인 실패 테스트")
     public void loginFailTest() throws Exception {
-
-        //given
         String email = "test@email.com";
         String password = "1234";
         this.createMember(email, password);
 
-        //when
         mockMvc.perform(formLogin().userParameter("email")
                         .loginProcessingUrl("/members/login")
                         .user(email)
                         .password("123456789"))
                 .andExpect(SecurityMockMvcResultMatchers.unauthenticated());
-
-        //then
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

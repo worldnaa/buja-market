@@ -12,17 +12,17 @@ import javax.validation.constraints.NotBlank;
 public class MemberFormDto {  //회원가입 화면으로부터 넘어온 가입정보를 Dto 클래스에 담는다
 
     @NotBlank(message = "이름 입력은 필수입니다")
-    private String name;      //이름
+    private String name;
 
     @NotBlank(message = "이메일 입력은 필수입니다")
     @Email(message = "이메일에 맞지 않는 형식입니다")
-    private String email;     //이메일
+    private String email;
 
     @NotBlank(message = "비밀번호 입력은 필수입니다")
     @Length(min = 8, max = 16, message = "비밀번호는 8자 이상, 16자 이하로 입력해주세요")
-    private String password;  //비밀번호
+    private String password;
 
-    private String address;   //주소
+    private String address;
 
 }
 

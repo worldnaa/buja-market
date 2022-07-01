@@ -1,15 +1,15 @@
 package com.bujamarket.domain.item;
 
+import com.bujamarket.domain.BaseEntity;
+import com.bujamarket.dto.item.ItemFormDto;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @ToString
-@Getter
-@NoArgsConstructor
+@Getter @Setter
 @Entity
-public class Item {
+public class Item extends BaseEntity {
 
     @Id
     @Column(name = "item_id")
@@ -32,21 +32,16 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus;          //상품 판매상태
 
-    private LocalDateTime regTime;                  //상품 등록시간
 
-    private LocalDateTime updateTime;               //상품 수정시간
-
-    @Builder
-    public Item(String itemName, int price, int stockNumber, String itemDetail,
-                ItemSellStatus itemSellStatus, LocalDateTime regTime, LocalDateTime updateTime) {
-        this.itemName = itemName;
-        this.price = price;
-        this.stockNumber = stockNumber;
-        this.itemDetail = itemDetail;
-        this.itemSellStatus = itemSellStatus;
-        this.regTime = regTime;
-        this.updateTime = updateTime;
+    //상품 업데이트
+    public void updateItem(ItemFormDto itemFormDto) {
+        this.itemName = itemFormDto.getItemName();
+        this.price = itemFormDto.getPrice();
+        this.stockNumber = itemFormDto.getStockNumber();
+        this.itemDetail = itemFormDto.getItemDetail();
+        this.itemSellStatus = itemFormDto.getItemSellStatus();
     }
+
 }
 
 /*
@@ -64,10 +59,4 @@ public class Item {
 * BLOB : 바이너리 데이터를 DB 외부에 저장하기 위한 타입 (이미지, 사운드, 비디오 같은 멀티미디어 데이터)
 
 * @Enumerated : enum 타입을 매핑한다
-
-* @NoArgsConstructor : 기본 생성자를 자동으로 추가한다
-
-* @Builder : Item 클래스의 빌더 패턴 클래스를 생성한다 (생성자 상단에 선언 시 생성자에 포함된 필드만 빌더에 포함한다)
-* 여기서는 생성자 대신 @Builder를 통해 제공되는 빌더 클래스를 사용한다.
-* 생성자나 빌더나 생성 시점에 값을 채워주는 역할은 똑같으나, 생성자의 경우 지금 채워야할 필드가 무엇인지 명확히 지정할 수 없다
 */

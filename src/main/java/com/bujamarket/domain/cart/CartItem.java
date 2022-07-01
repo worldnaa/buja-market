@@ -2,15 +2,12 @@ package com.bujamarket.domain.cart;
 
 import com.bujamarket.domain.BaseEntity;
 import com.bujamarket.domain.item.Item;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @ToString
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "cart_item")
@@ -31,12 +28,6 @@ public class CartItem extends BaseEntity {
 
     private int count;              //같은 상품을 장바구니에 몇 개 담을지 저장
 
-    @Builder
-    public CartItem(Cart cart, Item item, int count) {
-        this.cart = cart;
-        this.item = item;
-        this.count = count;
-    }
 }
 
 /*

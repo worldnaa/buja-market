@@ -17,6 +17,7 @@ public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
+
     //회원 가입
     public Member saveMember(Member member) {
         validateDuplicateMember(member);
@@ -53,10 +54,6 @@ public class MemberService implements UserDetailsService {
                 .roles(member.getRole().toString())
                 .build();
     }
-
-
-
-
 }
 
 /*

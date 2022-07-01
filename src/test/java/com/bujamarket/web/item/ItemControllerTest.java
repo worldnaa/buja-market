@@ -22,6 +22,7 @@ class ItemControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+
     @Test
     @DisplayName("상품등록 페이지 권한 테스트")
     @WithMockUser(username = "admin", roles = "ADMIN") //현재 인증된 사용자 Role 을 'ADMIN' 으로 세팅한다
@@ -40,5 +41,4 @@ class ItemControllerTest {
                .andDo(print())
                .andExpect(status().isForbidden()); //상품등록 페이지 진입 요청 시 'Forbidden' 예외가 발생하면 테스트가 성공적으로 통과한다
     }
-
 }
